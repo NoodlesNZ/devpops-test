@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+    </appender>
+
+    <appender name="LOGFILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/sandbox-connector.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/archived/sandbox-connector-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- How may days of logs to keep -->
+            <maxFileSize>100MB</maxFileSize> <!-- Auto rotate active log file if this size limit is exceeded.  -->
+            <totalSizeCap>1GB</totalSizeCap> <!-- Maximum size of all logs. Will trigger removal of archived logs -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="REQUESTS-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/requests.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss}  %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/archived/requests-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- How may days of logs to keep -->
+            <maxFileSize>10MB</maxFileSize> <!-- Auto rotate active log file if this size limit is exceeded.  -->
+            <totalSizeCap>100MB</totalSizeCap> <!-- Maximum size of all logs. Will trigger removal of archived logs -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="ORIGIN-REQUESTS-FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/origin-requests.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss}  %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${LOG_PATH}/archived/origin-requests-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <maxHistory>7</maxHistory> <!-- How may days of logs to keep -->
+            <maxFileSize>10MB</maxFileSize> <!-- Auto rotate active log file if this size limit is exceeded.  -->
+            <totalSizeCap>100MB</totalSizeCap> <!-- Maximum size of all logs. Will trigger removal of archived logs -->
+            <cleanHistoryOnStart>true</cleanHistoryOnStart>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="requests" level="INFO" additivity="false">
+        <appender-ref ref="REQUESTS-FILE"/>
+    </logger>
+
+    <logger name="originRequests" level="INFO" additivity="false">
+        <appender-ref ref="ORIGIN-REQUESTS-FILE"/>
+    </logger>
+
+    <logger name="com.akamai.devpops.connector" level="INFO"
+            additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="LOGFILE"/>
+    </root>
+</configuration>
