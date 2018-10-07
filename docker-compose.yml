@@ -1,0 +1,8 @@
+version: '2'
+services:
+  devpops:
+    image: akamai/devpops
+    volumes:
+      - ./conf:/opt/devpops/conf
+    ports:
+      - "443:443"
