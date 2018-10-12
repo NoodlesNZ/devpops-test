@@ -1,7 +1,7 @@
 version: '2'
 services:
   devpops:
-    image: akamai/devpops
+    image: noodlesnz/devpops:latest
     volumes:
       - ./conf:/opt/devpops/conf
     ports:
